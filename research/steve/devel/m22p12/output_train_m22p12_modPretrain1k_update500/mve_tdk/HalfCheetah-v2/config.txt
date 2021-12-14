@@ -1,0 +1,90 @@
+
+Start Time
+	2021-12-09_15-53-54/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 13, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-09_16-46-54/
+Duration
+	DD:HH:MM:SS 0:0:52:59
+
+Start Time
+	2021-12-09_18-51-08/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 113, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-09_19-41-35/
+Duration
+	DD:HH:MM:SS 0:0:50:26
+
+Start Time
+	2021-12-09_21-45-33/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 213, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-09_22-39-17/
+Duration
+	DD:HH:MM:SS 0:0:53:44
+
+Start Time
+	2021-12-10_00-39-08/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 313, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_01-36-47/
+Duration
+	DD:HH:MM:SS 0:0:57:39
+
+Start Time
+	2021-12-10_03-33-59/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 413, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_04-33-07/
+Duration
+	DD:HH:MM:SS 0:0:59:8
+
+Start Time
+	2021-12-10_06-29-39/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 513, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_07-27-54/
+Duration
+	DD:HH:MM:SS 0:0:58:14
+
+Start Time
+	2021-12-10_09-25-05/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 613, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_10-20-19/
+Duration
+	DD:HH:MM:SS 0:0:55:13
+
+Start Time
+	2021-12-10_12-20-29/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 713, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_13-13-29/
+Duration
+	DD:HH:MM:SS 0:0:53:0
+
+Start Time
+	2021-12-10_15-15-49/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 813, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_16-06-26/
+Duration
+	DD:HH:MM:SS 0:0:50:36
+
+Start Time
+	2021-12-10_18-17-43/
+Config
+	{'output_root': 'devel/output_train_m22p12_modPretrain1k_update500', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'layers': [1,2], 'value_expansion': {'rollout_len': 10, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 3e-3, 'layers': [2,2],'bayesian': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 913, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-10_19-15-58/
+Duration
+	DD:HH:MM:SS 0:0:58:14

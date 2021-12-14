@@ -1,0 +1,10 @@
+
+Start Time
+	2021-12-13_11-22-01/
+Config
+	{'output_root': 'devel/H3/output_train_orig_modAux_base', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 10000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 512, 'replay_size': 1000000, 'frames_before_learning': 10000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.0003, 'value_lr': 0.0003, 'layers': [4, 4], 'bayesian': {'ensemble_size': 4, 'train_sample_count': 4, 'eval_sample_count': 4}, 'value_expansion': {'rollout_len': 3, 'steve_reweight': True, 'tdk_trick': False, 'covariances': False, 'mean_k_return': False, 'lambda_return': False}, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 512, 'aux_hidden_dim': 128, 'batch_size': 512, 'replay_size': 1000000, 'frames_before_learning': 10000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 10000, 'frames_per_update': 0.25, 'model_lr': 0.0003, 'layers': [8, 4], 'bayesian': {'transition': {'ensemble_size': 4, 'train_sample_count': 4, 'eval_sample_count': 4}, 'reward': {'ensemble_size': 4, 'train_sample_count': 4, 'eval_sample_count': 4}}}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'steve', 'resume': False, 'seed': 13, 'original_config': True, 'no_done': True}
+End Time
+	2021-12-13_17-35-46/
+Duration
+	DD:HH:MM:SS 0:6:13:45
+

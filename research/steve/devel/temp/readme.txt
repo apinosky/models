@@ -1,0 +1,1 @@
+output_train2_fs4 = output_train_decay2+update_model_NoPretrainNoRandom_fs4

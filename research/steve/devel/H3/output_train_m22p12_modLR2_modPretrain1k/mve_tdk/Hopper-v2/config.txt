@@ -1,0 +1,45 @@
+
+Start Time
+	2021-12-12_23-40-06/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'value_expansion': {'rollout_len': 3, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 0.003, 'layers': [2, 2], 'bayesian': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 13, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-13_00-23-09/
+Duration
+	DD:HH:MM:SS 0:0:43:3
+
+Start Time
+	2021-12-13_01-52-39/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'value_expansion': {'rollout_len': 3, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 0.003, 'layers': [2, 2], 'bayesian': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 113, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-13_02-36-27/
+Duration
+	DD:HH:MM:SS 0:0:43:47
+
+Start Time
+	2021-12-13_04-05-33/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'value_expansion': {'rollout_len': 3, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 0.003, 'layers': [2, 2], 'bayesian': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 213, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-13_04-48-45/
+Duration
+	DD:HH:MM:SS 0:0:43:12
+
+Start Time
+	2021-12-13_06-17-48/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'value_expansion': {'rollout_len': 3, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 0.003, 'layers': [2, 2], 'bayesian': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 313, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-13_07-02-15/
+Duration
+	DD:HH:MM:SS 0:0:44:27
+
+Start Time
+	2021-12-13_08-31-07/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'value_expansion': {'rollout_len': 3, 'tdk_trick': True, 'covariances': False, 'mean_k_return': False, 'lambda_return': False, 'steve_reweight': False}, 'bayesian': False, 'ddpg_explore_chance': False}, 'model_config': {'transition_hidden_dim': 200, 'aux_hidden_dim': 200, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'pretrain_n': 1000, 'frames_per_update': 0.25, 'model_lr': 0.003, 'layers': [2, 2], 'bayesian': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'mve_tdk', 'resume': False, 'seed': 413, 'original_config': False, 'no_done': True}
+End Time
+	2021-12-13_08-48-06/
+Duration
+	DD:HH:MM:SS 0:0:16:59

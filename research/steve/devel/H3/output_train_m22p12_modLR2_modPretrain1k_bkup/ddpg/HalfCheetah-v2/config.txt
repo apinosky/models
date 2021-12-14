@@ -1,0 +1,9 @@
+
+Start Time
+	2021-12-12_21-48-22/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 500, 'epoch_every_n': 500, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'HalfCheetah-v2', 'obs_dims': [17], 'action_dim': 6, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 113, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-12_22-05-16/
+Duration
+	DD:HH:MM:SS 0:0:16:53

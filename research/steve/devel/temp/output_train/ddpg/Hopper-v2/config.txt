@@ -1,0 +1,14 @@
+
+Start Time
+	2021-11-19_10-13-55/
+Config
+	{'output_root': 'output_train', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, '_batch_size': 8, 'reload_every_n': 1, 'full_random_n': 10000, '_full_random_n': 10000}, 'evaluator_config': {'count': 0, '_count': 2, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, '_batch_size': 512, 'replay_size': 100000, 'frames_before_learning': 10000, '_frames_before_learning': 10000, 'log_every_n': 500, '_log_every_n': 500, 'epoch_every_n': 500, '_epoch_every_n': 500, 'backup_every_n': 2500000, '_backup_every_n': 2500000, 'frames_per_update': 1.0, '_frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000, 'v3': False}, 'name': 'ddpg', 'resume': False, 'seed': 13, 'original_config': False,  'model_config': False}
+
+Start Time
+	2021-11-19_10-20-06/
+Config
+	{'output_root': 'output_train', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, '_batch_size': 8, 'reload_every_n': 1, 'full_random_n': 10000, '_full_random_n': 10000}, 'evaluator_config': {'count': 0, '_count': 2, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, '_batch_size': 512, 'replay_size': 100000, 'frames_before_learning': 10000, '_frames_before_learning': 10000, 'log_every_n': 500, '_log_every_n': 500, 'epoch_every_n': 500, '_epoch_every_n': 500, 'backup_every_n': 2500000, '_backup_every_n': 2500000, 'frames_per_update': 1.0, '_frames_per_update': 0.25, 'policy_lr': 3e-3, 'value_lr': 3e-4, 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000, 'v3': False}, 'name': 'ddpg', 'resume': False, 'seed': 13, 'original_config': False,  'model_config': False}
+End Time
+	2021-11-19_10-26-06/
+Duration
+	DD:HH:MM:SS 0:0:6:0

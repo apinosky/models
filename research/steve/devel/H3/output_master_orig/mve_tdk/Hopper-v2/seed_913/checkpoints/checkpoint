@@ -1,0 +1,2 @@
+model_checkpoint_path: "worldmodel.params"
+all_model_checkpoint_paths: "worldmodel.params"
