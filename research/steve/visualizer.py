@@ -22,54 +22,42 @@ import time, os, traceback, multiprocessing, portalocker, sys
 
 import envwrap
 import util
-import valuerl, worldmodel
+import valuerl
+from worldmodel import DeterministicWorldModel
 from config import config
 
-MODEL_NAME = config["name"]
-LOG_PATH = util.create_directory("output/" + config["env"] + "/" + MODEL_NAME + "/" + config["log_path"]) + "/" + MODEL_NAME
-LOAD_PATH =    util.create_directory("output/" + config["env"] + "/" + MODEL_NAME + "/" + config["save_model_path"])
-OBS_DIM =   np.prod(config["obs_dims"])
-HIDDEN_DIM = config["hidden_dim"]
-ACTION_DIM = config["action_dim"]
-MAX_FRAMES = config["max_frames"]
-REWARD_SCALE = config["reward_scale"]
-DISCOUNT = config["discount"]
-ALGO = config["policy_config"]["algo"]
-AGENT_BATCH_SIZE = config["agent_config"]["batch_size"]
-EVALUATOR_BATCH_SIZE = config["evaluator_config"]["batch_size"]
-RELOAD_EVERY_N = config["agent_config"]["reload_every_n"]
-FRAMES_BEFORE_LEARNING = config["policy_config"]["frames_before_learning"]
-FRAMES_PER_UPDATE = config["policy_config"]["frames_per_update"]
-LEARNER_EPOCH_N = config["policy_config"]["epoch_n"]
-SYNC_UPDATES = config["policy_config"]["frames_per_update"] >= 0
-POLICY_BAYESIAN_CONFIG = config["policy_config"]["bayesian"]
-AUX_CONFIG = config["aux_config"]
-DDPG_EXPLORE_CHANCE = config["policy_config"]["explore_chance"] if ALGO == "ddpg" else 0.
+base_path = "%s/%s/%s/seed_%d" % (config["output_root"], config["name"], config["env"]["name"], config["seed"])
+LOG_PATH = util.create_directory("%s/%s" % (base_path, config["log_path"])) + "/%s" % config["name"]
+LOAD_PATH = util.create_directory("%s/%s" % (base_path,config["save_model_path"]))
+print(LOG_PATH,LOAD_PATH)
+OBS_DIM = np.prod(config["env"]["obs_dims"])
 MODEL_AUGMENTED = config["model_config"] is not False
 if MODEL_AUGMENTED: MODEL_BAYESIAN_CONFIG = config["model_config"]["bayesian"]
+ROLLOUT_LEN = config["policy_config"]["value_expansion"]["rollout_len"]
+MODEL_ENSEMBLING = config["name"] == "steve"
+MULTIPROCESSING = False
 
-FILENAME = sys.argv[3]
+FILENAME = LOAD_PATH
 
 if __name__ == '__main__':
-    oprl = valuerl.ValueRL(MODEL_NAME, ALGO, OBS_DIM, ACTION_DIM, HIDDEN_DIM, REWARD_SCALE, DISCOUNT, POLICY_BAYESIAN_CONFIG, AUX_CONFIG, DDPG_EXPLORE_CHANCE)
+    oprl = valuerl.ValueRL(config["name"], config["env"], config["policy_config"], config["seed"],multiprocessing=multiprocessing)
 
-    obs_loader = tf.placeholder(tf.float32, [1, OBS_DIM])
-    policy_actions, _ = oprl.build_evalution_graph(obs_loader, mode="exploit")
+    obs_loader = tf.compat.v1.placeholder(tf.float32, [1, OBS_DIM])
+    policy_actions = oprl.build_evalution_graph(obs_loader, mode="exploit")
 
     if MODEL_AUGMENTED:
-        next_obs_loader = tf.placeholder(tf.float32, [1, OBS_DIM])
-        reward_loader = tf.placeholder(tf.float32, [1])
-        done_loader = tf.placeholder(tf.float32, [1])
-        worldmodel = worldmodel.DeterministicWorldModel(MODEL_NAME, OBS_DIM, ACTION_DIM, HIDDEN_DIM, REWARD_SCALE, DISCOUNT, MODEL_BAYESIAN_CONFIG)
-        _, _, _, _, _, confidence, _ = oprl.build_Q_expansion_graph(next_obs_loader, reward_loader, done_loader, worldmodel, rollout_len=3, model_ensembling=True)
-
-    sess = tf.Session()
-    sess.run(tf.global_variables_initializer())
+        next_obs_loader = tf.compat.v1.placeholder(tf.float32, [1, OBS_DIM])
+        reward_loader = tf.compat.v1.placeholder(tf.float32, [1])
+        done_loader = tf.compat.v1.placeholder(tf.float32, [1])
+        worldmodel = DeterministicWorldModel(config["name"], config["env"], config["model_config"], config["seed"],config["original_config"],multiprocessing=multiprocessing)
+        _, confidence, _ , _ = oprl.build_Q_expansion_graph(next_obs_loader, reward_loader, done_loader, worldmodel, rollout_len=ROLLOUT_LEN, model_ensembling=MODEL_ENSEMBLING)
+    sess = tf.compat.v1.Session()
+    sess.run(tf.compat.v1.global_variables_initializer())
 
     oprl.load(sess, FILENAME)
     if MODEL_AUGMENTED: worldmodel.load(sess, FILENAME)
 
-    env = envwrap.get_env(config["env"])
+    env = envwrap.get_env(config["env"]['name'])
 
     hist = np.zeros([4, 10])
     for _ in range(10):
@@ -77,7 +65,7 @@ if __name__ == '__main__':
         rgb_frames = []
         obs, reward, done, reset = env.reset(), 0, False, False
         while not reset:
-            # env.internal_env.render()
+            env.internal_env.render()
             # rgb_frames.append(env.internal_env.render(mode='rgb_array'))
             # action = env.action_space.sample()
             all_actions = sess.run(policy_actions, feed_dict={obs_loader: np.array([obs])})
@@ -103,5 +91,3 @@ if __name__ == '__main__':
 
     #clip = mpy.ImageSequenceClip(rgb_frames, fps=100)
     #clip.write_videofile(FILENAME + "/movie.mp4")
-
-

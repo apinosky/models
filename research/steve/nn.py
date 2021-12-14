@@ -36,14 +36,14 @@ class FeedForwardNet(object):
 
         self.params_list = []
 
-        with tf.variable_scope(name):
+        with tf.compat.v1.variable_scope(name):
             for layer_i in range(self.layers):
                 in_size = self.hidden_dim
                 out_size = self.hidden_dim
                 if layer_i == 0: in_size = self.in_size
                 if layer_i == self.layers - 1: out_size = self.out_size
-                self.weights[layer_i] = tf.get_variable("weights%d" % layer_i, [in_size, out_size], initializer=tf.contrib.layers.xavier_initializer())
-                self.biases[layer_i] = tf.get_variable("bias%d" % layer_i, [1, out_size], initializer=tf.constant_initializer(0.0))
+                self.weights[layer_i] = tf.compat.v1.get_variable("weights%d" % layer_i, [in_size, out_size], initializer=tf.contrib.layers.xavier_initializer())
+                self.biases[layer_i] = tf.compat.v1.get_variable("bias%d" % layer_i, [1, out_size], initializer=tf.constant_initializer(0.0))
                 self.params_list += [self.weights[layer_i], self.biases[layer_i]]
 
     def __call__(self, x, stop_params_gradient=False, is_eval=True, ensemble_idxs=None, pre_expanded=None, reduce_mode="none"):
@@ -64,34 +64,35 @@ class FeedForwardNet(object):
     def l2_loss(self):
         return tf.add_n([tf.reduce_sum(.5 * tf.square(mu)) for mu in self.params_list])
 
-class BayesianDropoutFeedForwardNet(FeedForwardNet):
-    """Custom feed-forward network layer, with dropout as a Bayesian approximation."""
-    def __init__(self, name, in_size, out_shape, layers=1, hidden_dim=32, final_nonlinearity=None, get_uncertainty=False, keep_prob=.5, eval_sample_count=2, consistent_random_seed=False):
-        super(BayesianDropoutFeedForwardNet, self).__init__(name, in_size, out_shape, layers=layers, hidden_dim=hidden_dim,
-                                                            final_nonlinearity=final_nonlinearity, get_uncertainty=get_uncertainty)
-        self.keep_prob = keep_prob
-        self.eval_sample_count = eval_sample_count
-        if eval_sample_count < 2: raise Exception("eval_sample_count must be at least 2 to estimate uncertainty")
-        self.dropout_seed = tf.random_uniform([layers], maxval=1e18, dtype=tf.int64) if consistent_random_seed else [None] * layers
-
-    def __call__(self, x, stop_params_gradient=False, is_eval=True, pre_expanded=False, ensemble_idxs=None, reduce_mode="none"):
-        if is_eval:
-            x = tf.tile(tf.expand_dims(x,0), tf.concat([tf.constant([self.eval_sample_count]), tf.ones_like(tf.shape(x))], 0))
-        original_shape = tf.shape(x)
-        h = tf.reshape(x, [-1, self.in_size])
-        for layer_i in range(self.layers):
-            nonlinearity = tf.nn.relu if layer_i + 1 < self.layers else self.final_nonlinearity
-            if layer_i > 0: h = tf.nn.dropout(h, keep_prob=self.keep_prob, seed=self.dropout_seed[layer_i])
-            if stop_params_gradient: h = nonlinearity(tf.matmul(h, tf.stop_gradient(self.weights[layer_i])) + tf.stop_gradient(self.biases[layer_i]))
-            else:                    h = nonlinearity(tf.matmul(h, self.weights[layer_i]) + self.biases[layer_i])
-        if len(self.out_shape) > 0: h = tf.reshape(h, tf.concat([original_shape[:-1], tf.constant(self.out_shape)], -1))
-        else:                       h = tf.reshape(h, original_shape[:-1])
-        if is_eval:
-            h, uncertainty = tf.nn.moments(h, 0)
-            if self.get_uncertainty: return h, uncertainty
-            else:                    return h
-        else:
-            return h
+### unusued so commented out
+# class BayesianDropoutFeedForwardNet(FeedForwardNet):
+#     """Custom feed-forward network layer, with dropout as a Bayesian approximation."""
+#     def __init__(self, name, in_size, out_shape, layers=1, hidden_dim=32, final_nonlinearity=None, get_uncertainty=False, keep_prob=.5, eval_sample_count=2, consistent_random_seed=False):
+#         super(BayesianDropoutFeedForwardNet, self).__init__(name, in_size, out_shape, layers=layers, hidden_dim=hidden_dim,
+#                                                             final_nonlinearity=final_nonlinearity, get_uncertainty=get_uncertainty)
+#         self.keep_prob = keep_prob
+#         self.eval_sample_count = eval_sample_count
+#         if eval_sample_count < 2: raise Exception("eval_sample_count must be at least 2 to estimate uncertainty")
+#         self.dropout_seed = tf.random.uniform([layers], maxval=1e18, dtype=tf.int64) if consistent_random_seed else [None] * layers
+#
+#     def __call__(self, x, stop_params_gradient=False, is_eval=True, pre_expanded=False, ensemble_idxs=None, reduce_mode="none"):
+#         if is_eval:
+#             x = tf.tile(tf.expand_dims(x,0), tf.concat([tf.constant([self.eval_sample_count]), tf.ones_like(tf.shape(x))], 0))
+#         original_shape = tf.shape(x)
+#         h = tf.reshape(x, [-1, self.in_size])
+#         for layer_i in range(self.layers):
+#             nonlinearity = tf.nn.relu if layer_i + 1 < self.layers else self.final_nonlinearity
+#             if layer_i > 0: h = tf.nn.dropout(h, keep_prob=self.keep_prob, seed=self.dropout_seed[layer_i])
+#             if stop_params_gradient: h = nonlinearity(tf.matmul(h, tf.stop_gradient(self.weights[layer_i])) + tf.stop_gradient(self.biases[layer_i]))
+#             else:                    h = nonlinearity(tf.matmul(h, self.weights[layer_i]) + self.biases[layer_i])
+#         if len(self.out_shape) > 0: h = tf.reshape(h, tf.concat([original_shape[:-1], tf.constant(self.out_shape)], -1))
+#         else:                       h = tf.reshape(h, original_shape[:-1])
+#         if is_eval:
+#             h, uncertainty = tf.nn.moments(h, 0)
+#             if self.get_uncertainty: return h, uncertainty
+#             else:                    return h
+#         else:
+#             return h
 
 
 class EnsembleFeedForwardNet(FeedForwardNet):
@@ -116,20 +117,20 @@ class EnsembleFeedForwardNet(FeedForwardNet):
 
         self.params_list = []
 
-        with tf.variable_scope(name):
+        with tf.compat.v1.variable_scope(name):
             for layer_i in range(self.layers):
                 in_size = self.hidden_dim
                 out_size = self.hidden_dim
                 if layer_i == 0: in_size = self.in_size
                 if layer_i == self.layers - 1: out_size = self.out_size
-                self.weights[layer_i] = tf.get_variable("weights%d" % layer_i, [ensemble_size, in_size, out_size], initializer=tf.contrib.layers.xavier_initializer())
-                self.biases[layer_i] = tf.get_variable("bias%d" % layer_i, [ensemble_size, out_size], initializer=tf.constant_initializer(0.0))
+                self.weights[layer_i] = tf.compat.v1.get_variable("weights%d" % layer_i, [ensemble_size, in_size, out_size], initializer=tf.contrib.layers.xavier_initializer())
+                self.biases[layer_i] = tf.compat.v1.get_variable("bias%d" % layer_i, [ensemble_size, out_size], initializer=tf.constant_initializer(0.0))
                 self.params_list += [self.weights[layer_i], self.biases[layer_i]]
 
     def __call__(self, x, stop_params_gradient=False, is_eval=True, ensemble_idxs=None, pre_expanded=None, reduce_mode="none"):
         if pre_expanded is None: pre_expanded = ensemble_idxs is not None
         if ensemble_idxs is None:
-            ensemble_idxs = tf.random_shuffle(tf.range(self.ensemble_size))
+            ensemble_idxs = tf.random.shuffle(tf.range(self.ensemble_size))
             ensemble_sample_n = self.eval_sample_count if is_eval else self.train_sample_count
             ensemble_idxs = ensemble_idxs[:ensemble_sample_n]
         else:
@@ -156,8 +157,10 @@ class EnsembleFeedForwardNet(FeedForwardNet):
         if reduce_mode == "none":
             pass
         elif reduce_mode == "random":
-            if len(self.out_shape) > 0: h = tf.reduce_sum(h * tf.reshape(tf.one_hot(tf.random_uniform([tf.shape(h)[0]], 0, ensemble_sample_n, dtype=tf.int64), ensemble_sample_n), tf.concat([tf.shape(h)[:1], tf.ones_like(tf.shape(h)[1:-2]), tf.constant([ensemble_sample_n]), tf.constant([1])], 0)), -2)
-            else:                       h = tf.reduce_sum(h * tf.reshape(tf.one_hot(tf.random_uniform([tf.shape(h)[0]], 0, ensemble_sample_n, dtype=tf.int64), ensemble_sample_n), tf.concat([tf.shape(h)[:1], tf.ones_like(tf.shape(h)[1:-1]), tf.constant([ensemble_sample_n])], 0)), -1)
+            if len(self.out_shape) > 0:
+                h = tf.reduce_sum(h * tf.reshape(tf.one_hot(tf.random.uniform([tf.shape(h)[0]], 0, ensemble_sample_n, dtype=tf.int64), ensemble_sample_n), tf.concat([tf.shape(h)[:1], tf.ones_like(tf.shape(h)[1:-2]), tf.constant([ensemble_sample_n]), tf.constant([1])], 0)), -2)
+            else:
+                h = tf.reduce_sum(h * tf.reshape(tf.one_hot(tf.random.uniform([tf.shape(h)[0]], 0, ensemble_sample_n, dtype=tf.int64), ensemble_sample_n), tf.concat([tf.shape(h)[:1], tf.ones_like(tf.shape(h)[1:-1]), tf.constant([ensemble_sample_n])], 0)), -1)
         elif reduce_mode == "mean":
             if len(self.out_shape) > 0: h = tf.reduce_mean(h, -2)
             else:                       h = tf.reduce_mean(h, -1)

@@ -92,3 +92,41 @@ config file and a GPU, it takes the filename of the model to load as a mandatory
 
 ## Contact
 Please contact GitHub user buckman-google (jacobbuckman@gmail.com) with any questions.
+
+## ALP updates
+
+*Modifications:*
+- Modified code to be compatible with Ubuntu 18.04, Python 3.6, and tensorflow v1.15+gpu
+- Generated requirements.txt with `pip freeze --local`
+    - Installed nvidia distribution of tensorflow with `pip install nvidia-pyindex` then `pip install nvidia-tensorflow[horovod]` to run Ubuntu 18.04 with tensorflow v1.15+gpu
+- Upgraded `tf` functions to run with tensorflow v1.15 with minimal depreciation warnings
+- Added GPU options to control how much of the GPU a session runs (`agent.py` and `learner.py`)
+- Added max_frames variable to prevent simulations from running forever and added in cleanup functions at the end of tensorflow sessions and threads (`agent.py`, `learner.py`, `master.py`)
+- Added manual seeding (`agent.py`, `config.py`, `learner.py`, `valuerl_learner.py`, `worldmodel_learner.py`)
+- Updated `visualizer.py` to match other function modifications
+- Added `train.py` as an alternate to `master.py` to run serially (without multiprocessing on different threads) for better comparison to Hybrid Learning.
+    - Also added steps that were previously handled by various threads to the `_learn` function in `learner.py`
+    - Also added option to render simulations
+- Modified config files to allow policy layers and learning rates to be specified in `basic.json` and model layers and learning rates to be specified in `model.json`
+- Modified worldmodel to better match Hybrid Learning (can run with --orig flag to run original model without these changes
+    - model layers / aux layers / learning rates are now loaded from config directory (originally were 8/4/3e-4)
+    - aux inputs changed from "next_obs + obs + action" to "obs + action"
+    - added option to not learn done function
+- Modified valuerl_learner to better match Hybrid Learning (can run with --orig flag to run original model)
+    - policy layers / Q layers / learning rates are now loaded from config directory (originally were 4/4/3e-4)
+    - modified code to set dones to zero when not learning done function as part of worldmodel (relevant to tdk-trick)
+- Modified `config/envs` files to run v2 gym environments
+- For comparison experiments, modified files in `config/new_experiments` directory. Data saved in `devel` directory. `devel\README.md` describes the experiments saved in this directory. Jupyter notebook with simulations is saved in `notebooks` directory
+
+*Running experiments:*
+
+format:
+
+    python master.py config/experimental_setups/<environment>/<algorithm>.json
+        <gpu id> <seed number> <optional flags: --resume --orig --render>
+
+e.g.
+
+    python master.py config/experimental_setups/hopper/mve_tdk.json 0 13
+
+can also batch run as shown in `run.sh`

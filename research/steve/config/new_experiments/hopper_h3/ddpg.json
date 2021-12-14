@@ -1,0 +1,1 @@
+{"inherits": ["config/algos/ddpg_mod.json", "config/envs/hopper.json"]}

@@ -29,9 +29,11 @@ gym.logger.level=40
 
 def get_env(env_name, *args, **kwargs):
   MAPPING = {
-    "CartPole-v0": CartPoleWrapper,
+    'placeholder': None,
+    # "CartPole-v0": CartPoleWrapper,
+    # "HalfCheetah-v2": HalfCheetah_DoneWrapper,
   }
-  if env_name in MAPPING: return MAPPING[env_name](env_name, *args, **kwargs)
+  if env_name in MAPPING: return MAPPING[env_name](NoTimeLimitMujocoWrapper(env_name, *args, **kwargs))
   else: return NoTimeLimitMujocoWrapper(env_name, *args, **kwargs)
 
 class GymWrapper(object):
@@ -99,8 +101,43 @@ class NoTimeLimitMujocoWrapper(GymWrapper):
   Wrap Mujoco-style environments, removing the termination condition after time.
   This is needed to keep it Markovian.
   """
-  def __init__(self, env_name):
-    self.internal_env = gym.make(env_name).env
+  def __init__(self, env_name, *args, **kwargs):
+    self.internal_env = gym.make(env_name, *args, **kwargs).env
     self.observation_space = self.internal_env.observation_space
     self.action_space = self.internal_env.action_space
     self.custom_init()
+
+  def seed(self,seed):
+    self.internal_env.seed(seed)
+
+  def render(self,mode):
+    self.internal_env.render(mode=mode)
+
+
+import mujoco_py
+
+def angle_wrap(angles):
+    ''' wrap between -pi and pi '''
+    return (angles + np.pi) % (2 * np.pi) - np.pi
+
+class HalfCheetah_DoneWrapper(gym.Wrapper):
+    def __init__(self, env):
+        super().__init__(env)
+        self.env = env
+        self._healthy_angle_range=(-1.85,1.85)  # when agent is upright / recoverable
+
+    def done(self):
+
+        z, angle = self.internal_env.sim.data.qpos[1:3]
+        angle = angle_wrap(angle.copy())
+
+        min_angle, max_angle = self._healthy_angle_range
+        healthy =  min_angle < angle < max_angle
+
+        return not(healthy)
+
+    def step(self, action):
+        next_state, reward, _, info = self.env.step(action)
+        # modify ...
+        done = self.done()
+        return next_state, reward, done, info

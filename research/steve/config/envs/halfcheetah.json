@@ -1,7 +1,7 @@
 {
   "updates": {
     "env": {
-      "name": "HalfCheetah-v1",
+      "name": "HalfCheetah-v2",
       "obs_dims": [17],
       "action_dim": 6,
       "reward_scale":1.0,

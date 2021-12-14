@@ -1,7 +1,7 @@
 {
   "updates": {
     "env": {
-      "name": "Hopper-v1",
+      "name": "Hopper-v2",
       "obs_dims": [11],
       "action_dim": 3,
       "reward_scale":1.0,

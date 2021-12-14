@@ -21,6 +21,7 @@ import numpy as np
 import scipy
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 ### Hyperparameters
 
@@ -99,6 +100,9 @@ if True:
   stdevs = np.std(result, axis=1)
   plt.plot(means, label="Basic Q-learning", color=colors[0])
   plt.fill_between(np.arange(TRAIN_STEPS), means - stdevs, means + stdevs, alpha=.2, color=colors[0])
+  path = 'Toy-v1'
+  if os.path.exists(path) == False:
+      os.makedirs(path)
   with open('Toy-v1/baseline.csv', 'w') as f:
     data = []
     for frame_i in range(result.shape[0]):
@@ -387,44 +391,44 @@ if True:
         data.append("%f,%f,%f,%f" % (frame_i, frame_i, frame_i, loss))
     f.write("\n".join(data))
 
-# ### Display results
-# plt.title("Comparison of convergence rates")
-# plt.legend()
-# plt.savefig("comparison.pdf")
-# plt.show()
-#
-# ### Display secondary results - error comparison
-# DOWNSAMPLE = 50
-# colors = sns.color_palette('husl', 8)
-# for i, (error_curve, label) in enumerate([
-#                                           (oracle_q_estimate_errors, "Oracle Q error"),
-#                                           (oracle_mve_estimate_errors, "Oracle MVE error"),
-#                                           (oracle_steve_estimate_errors, "Oracle STEVE error"),
-#                                           # (oracle_opt_estimate_errors, "Oracle minimum single-estimate error"),
-#                                          ]):
-#   result = np.stack(error_curve, axis=1)
-#   means = downsample(np.mean(result, axis=1), DOWNSAMPLE)
-#   stdevs = downsample(np.std(result, axis=1), DOWNSAMPLE)
-#   plt.plot(means, label=label, color=colors[i])
-#   plt.fill_between(np.arange(means.shape[0]), means - stdevs, means + stdevs, alpha=.2, color=colors[i])
-#
-# plt.title("Comparison of errors for oracle dynamics")
-# plt.legend()
-# plt.show()
-#
-# for i, (error_curve, label) in enumerate([
-#                                           (noisy_q_estimate_errors, "Noisy Q error"),
-#                                           (noisy_mve_estimate_errors, "Noisy MVE error"),
-#                                           (noisy_steve_estimate_errors, "Noisy STEVE error"),
-#                                           # (noisy_opt_estimate_errors, "Noisy minimum single-estimate error"),
-#                                           # (trial_steve_beat_freq, "STEVE beat freq"),
-#                                         ]):
-#   result = np.stack(error_curve, axis=1)
-#   means = downsample(np.mean(result, axis=1), DOWNSAMPLE)
-#   stdevs = downsample(np.std(result, axis=1), DOWNSAMPLE)
-#   plt.plot(means, label=label, color=colors[i])
-#   plt.fill_between(np.arange(means.shape[0]), means - stdevs, means + stdevs, alpha=.2, color=colors[i])
-#
-# plt.title("Comparison of errors for noisy dynamics")
-# plt.legend()
-# plt.show()
+### Display results
+plt.title("Comparison of convergence rates")
+plt.legend()
+plt.savefig("comparison.pdf")
+plt.show()
+
+### Display secondary results - error comparison
+DOWNSAMPLE = 50
+colors = sns.color_palette('husl', 8)
+for i, (error_curve, label) in enumerate([
+                                          (oracle_q_estimate_errors, "Oracle Q error"),
+                                          (oracle_mve_estimate_errors, "Oracle MVE error"),
+                                          (oracle_steve_estimate_errors, "Oracle STEVE error"),
+                                          # (oracle_opt_estimate_errors, "Oracle minimum single-estimate error"),
+                                         ]):
+  result = np.stack(error_curve, axis=1)
+  means = downsample(np.mean(result, axis=1), DOWNSAMPLE)
+  stdevs = downsample(np.std(result, axis=1), DOWNSAMPLE)
+  plt.plot(means, label=label, color=colors[i])
+  plt.fill_between(np.arange(means.shape[0]), means - stdevs, means + stdevs, alpha=.2, color=colors[i])
+
+plt.title("Comparison of errors for oracle dynamics")
+plt.legend()
+plt.show()
+
+for i, (error_curve, label) in enumerate([
+                                          (noisy_q_estimate_errors, "Noisy Q error"),
+                                          (noisy_mve_estimate_errors, "Noisy MVE error"),
+                                          (noisy_steve_estimate_errors, "Noisy STEVE error"),
+                                          # (noisy_opt_estimate_errors, "Noisy minimum single-estimate error"),
+                                          # (trial_steve_beat_freq, "STEVE beat freq"),
+                                        ]):
+  result = np.stack(error_curve, axis=1)
+  means = downsample(np.mean(result, axis=1), DOWNSAMPLE)
+  stdevs = downsample(np.std(result, axis=1), DOWNSAMPLE)
+  plt.plot(means, label=label, color=colors[i])
+  plt.fill_between(np.arange(means.shape[0]), means - stdevs, means + stdevs, alpha=.2, color=colors[i])
+
+plt.title("Comparison of errors for noisy dynamics")
+plt.legend()
+plt.show()

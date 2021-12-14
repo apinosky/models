@@ -25,19 +25,20 @@ class WorldmodelLearner(Learner):
     def learner_name(self): return "worldmodel"
 
     def make_loader_placeholders(self):
-        self.obs_loader = tf.placeholder(tf.float32, [self.learner_config["batch_size"], np.prod(self.env_config["obs_dims"])])
-        self.next_obs_loader = tf.placeholder(tf.float32, [self.learner_config["batch_size"], np.prod(self.env_config["obs_dims"])])
-        self.action_loader = tf.placeholder(tf.float32, [self.learner_config["batch_size"], self.env_config["action_dim"]])
-        self.reward_loader = tf.placeholder(tf.float32, [self.learner_config["batch_size"]])
-        self.done_loader = tf.placeholder(tf.float32, [self.learner_config["batch_size"]])
-        self.datasize_loader = tf.placeholder(tf.float64, [])
-        return [self.obs_loader, self.next_obs_loader, self.action_loader, self.reward_loader, self.done_loader, self.datasize_loader]
+        self.obs_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"], np.prod(self.env_config["obs_dims"])])
+        self.next_obs_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"], np.prod(self.env_config["obs_dims"])])
+        self.action_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"], self.env_config["action_dim"]])
+        self.next_action_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"], self.env_config["action_dim"]])
+        self.reward_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"]])
+        self.done_loader = tf.compat.v1.placeholder(tf.float32, [self.learner_config["batch_size"]])
+        self.datasize_loader = tf.compat.v1.placeholder(tf.float64, [])
+        return [self.obs_loader, self.next_obs_loader, self.action_loader,self.next_action_loader, self.reward_loader, self.done_loader, self.datasize_loader]
 
     def make_core_model(self):
-        worldmodel = DeterministicWorldModel(self.config["name"], self.env_config, self.learner_config)
+        worldmodel = DeterministicWorldModel(self.config["name"], self.env_config, self.learner_config, self.config["seed"],self.original_config,self.learn_done_fn,self.multiprocessing)
         worldmodel_loss, inspect_losses = worldmodel.build_training_graph(*self.current_batch)
 
-        model_optimizer = tf.train.AdamOptimizer(3e-4)
+        model_optimizer = tf.compat.v1.train.AdamOptimizer(self.learner_config["model_lr"])
         model_gvs = model_optimizer.compute_gradients(worldmodel_loss, var_list=worldmodel.model_params)
         capped_model_gvs = model_gvs
         worldmodel_train_op = model_optimizer.apply_gradients(capped_model_gvs)
@@ -45,11 +46,7 @@ class WorldmodelLearner(Learner):
         return worldmodel, (worldmodel_loss,), (worldmodel_train_op,), inspect_losses
 
     ## Optional functions to override
-    def initialize(self): pass
+    def initialize(self,decay=False): pass
     def resume_from_checkpoint(self, epoch): pass
-    def checkpoint(self): pass
+    def checkpoint(self,decay=False): pass
     def backup(self): pass
-
-
-
-

@@ -33,7 +33,7 @@ def tanh_sample_info(mu, logsigma, stop_action_gradient=False, n_samples=1):
     else:
       sample_shape = tf.shape(mu)
 
-    flat_act = mu + tf.random_normal(sample_shape) * tf.exp(logsigma)
+    flat_act = mu + tf.random.normal(sample_shape) * tf.exp(logsigma)
     if stop_action_gradient: flat_act = tf.stop_gradient(flat_act)
     normalized_dist_t = (flat_act - mu) * tf.exp(-logsigma)  # ... x D
     quadratic = - 0.5 * tf.reduce_sum(normalized_dist_t ** 2, axis=-1) # ... x (None)
@@ -43,7 +43,7 @@ def tanh_sample_info(mu, logsigma, stop_action_gradient=False, n_samples=1):
     flat_ll = quadratic - log_z
 
     scaled_act = tf.tanh(flat_act)
-    corr = tf.reduce_sum(tf.log(1. - tf.square(scaled_act) + 1e-6), axis=-1)
+    corr = tf.reduce_sum(tf.math.log(1. - tf.square(scaled_act) + 1e-6), axis=-1)
     scaled_ll = flat_ll - corr
     return flat_act, flat_ll, scaled_act, scaled_ll
 

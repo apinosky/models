@@ -20,17 +20,16 @@ import os, sys, time
 
 from config import config, log_config
 import util
+import learner, agent, valuerl_learner
+import psutil
 
 AGENT_COUNT = config["agent_config"]["count"]
 EVALUATOR_COUNT = config["evaluator_config"]["count"]
 MODEL_AUGMENTED = config["model_config"] is not False
-if config["resume"]:
-  ROOT_PATH = "output/" + config["env"]["name"] + "/" + config["name"]
-else:
-  ROOT_PATH = util.create_and_wipe_directory("output/" + config["env"]["name"] + "/" + config["name"])
-log_config()
-import learner, agent, valuerl_learner
+args = log_config()
 if MODEL_AUGMENTED: import worldmodel_learner
+GPU = int(args.root_gpu)
+MAX_FRAMES = 100000
 
 if __name__ == '__main__':
   all_procs = set([])
@@ -41,28 +40,29 @@ if __name__ == '__main__':
   model_lock = multiprocessing.Lock() if MODEL_AUGMENTED else None
 
   # queue
+  stop_queue = multiprocessing.Queue(1)
   policy_replay_frame_queue = multiprocessing.Queue(1)
   model_replay_frame_queue = multiprocessing.Queue(1) if MODEL_AUGMENTED else None
 
   # interactors
   for interact_proc_i in range(AGENT_COUNT):
-    interact_proc = multiprocessing.Process(target=agent.main, args=(interact_proc_i, False, policy_replay_frame_queue, model_replay_frame_queue, policy_lock, config))
+    interact_proc = multiprocessing.Process(target=agent.main, args=(interact_proc_i, False, policy_replay_frame_queue, model_replay_frame_queue, policy_lock, config, MAX_FRAMES))
     all_procs.add(interact_proc)
     interaction_procs.add(interact_proc)
 
   # evaluators
   for interact_proc_i in range(EVALUATOR_COUNT):
-    interact_proc = multiprocessing.Process(target=agent.main, args=(interact_proc_i, True, policy_replay_frame_queue, model_replay_frame_queue, policy_lock, config))
+    interact_proc = multiprocessing.Process(target=agent.main, args=(interact_proc_i, True, policy_replay_frame_queue, model_replay_frame_queue, policy_lock, config, MAX_FRAMES))
     all_procs.add(interact_proc)
     interaction_procs.add(interact_proc)
 
   # policy training
-  train_policy_proc = multiprocessing.Process(target=learner.run_learner, args=(valuerl_learner.ValueRLLearner, policy_replay_frame_queue, policy_lock, config, config["env"], config["policy_config"]), kwargs={"model_lock": model_lock})
+  train_policy_proc = multiprocessing.Process(target=learner.run_learner, args=(valuerl_learner.ValueRLLearner, policy_replay_frame_queue, policy_lock, config, config["env"], config["policy_config"], MAX_FRAMES), kwargs={"model_lock": model_lock,"stop_queue":stop_queue})
   all_procs.add(train_policy_proc)
 
   # model training
   if MODEL_AUGMENTED:
-    train_model_proc = multiprocessing.Process(target=learner.run_learner, args=(worldmodel_learner.WorldmodelLearner, model_replay_frame_queue, model_lock, config, config["env"], config["model_config"]))
+    train_model_proc = multiprocessing.Process(target=learner.run_learner, args=(worldmodel_learner.WorldmodelLearner, model_replay_frame_queue, model_lock, config, config["env"], config["model_config"], MAX_FRAMES))
     all_procs.add(train_model_proc)
 
   # start all policies
@@ -71,15 +71,28 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = ''
     proc.start()
 
-  os.environ['CUDA_VISIBLE_DEVICES'] = str(int(sys.argv[2]))
+  os.environ['CUDA_VISIBLE_DEVICES'] = str(GPU)
   train_policy_proc.start()
 
   if MODEL_AUGMENTED:
-    os.environ['CUDA_VISIBLE_DEVICES'] = str(1+int(sys.argv[2]))
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(1+GPU)
     train_model_proc.start()
 
   while True:
-    try:
-      pass
-    except:
-      for proc in all_procs: proc.join()
+    if stop_queue.get():
+        print('got signal to kill master')
+        for proc in all_procs:
+            # first kill children
+            parent = psutil.Process(proc.pid)
+            for child in parent.children(recursive=True):  # or parent.children() for recursive=False
+                child.kill()
+                print('killed child process #',child.pid)
+            # then kill process
+            proc.terminate()
+            proc.join()
+            print('killed master pid #',proc.pid)
+        break
+    # try:
+    #   pass
+    # except:
+    #   for proc in all_procs: proc.join()

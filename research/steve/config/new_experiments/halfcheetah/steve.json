@@ -1,0 +1,8 @@
+{"inherits": ["config/algos/steve_mod.json", "config/envs/halfcheetah.json"],
+    "updates":{
+        "policy_config": {
+          "value_expansion": {
+            "rollout_len": 10
+        }
+    }
+}}

@@ -1,0 +1,15 @@
+{
+  "inherits": [
+    "config/core/basic_mod.json",
+    "config/core/model_mod.json",
+    "config/core/bayesian_mod.json"
+              ],
+  "updates":{
+    "policy_config": {
+      "value_expansion": {
+        "rollout_len": 3,
+        "steve_reweight": true
+      }
+    }
+  }
+}

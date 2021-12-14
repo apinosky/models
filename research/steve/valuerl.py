@@ -20,7 +20,9 @@ import numpy as np
 import nn
 import util
 from learner import CoreModel
+from termcolor import cprint
 
+manual_mods = False
 
 class ValueRL(CoreModel):
   """
@@ -42,44 +44,64 @@ class ValueRL(CoreModel):
     self.value_expansion = learner_config["value_expansion"]
     self.explore_chance = learner_config["ddpg_explore_chance"]
 
-    with tf.variable_scope(self.name):
-      self.policy = nn.FeedForwardNet('policy', self.obs_dim, [self.action_dim], layers=4, hidden_dim=self.hidden_dim, get_uncertainty=False)
+    with tf.compat.v1.variable_scope(self.name):
+      policy_layers = self.learner_config['layers'][0]
+      Q_layers = self.learner_config['layers'][1]
+      cprint(['policy layers',[policy_layers,Q_layers]],'cyan')
+
+      self.policy = nn.FeedForwardNet('policy', self.obs_dim, [self.action_dim], layers=policy_layers, hidden_dim=self.hidden_dim, get_uncertainty=False)
+      # self.old_policy = nn.FeedForwardNet('old_policy', self.obs_dim, [self.action_dim], layers=policy_layers, hidden_dim=self.hidden_dim, get_uncertainty=False)
 
       if self.bayesian_config:
-        self.Q = nn.EnsembleFeedForwardNet('Q', self.obs_dim + self.action_dim, [], layers=4, hidden_dim=self.hidden_dim, get_uncertainty=True, ensemble_size=self.bayesian_config["ensemble_size"], train_sample_count=self.bayesian_config["train_sample_count"], eval_sample_count=self.bayesian_config["eval_sample_count"])
-        self.old_Q = nn.EnsembleFeedForwardNet('old_q', self.obs_dim + self.action_dim, [], layers=4, hidden_dim=self.hidden_dim, get_uncertainty=True, ensemble_size=self.bayesian_config["ensemble_size"], train_sample_count=self.bayesian_config["train_sample_count"], eval_sample_count=self.bayesian_config["eval_sample_count"])
+        self.Q = nn.EnsembleFeedForwardNet('Q', self.obs_dim + self.action_dim, [], layers=Q_layers, hidden_dim=self.hidden_dim, get_uncertainty=True, ensemble_size=self.bayesian_config["ensemble_size"], train_sample_count=self.bayesian_config["train_sample_count"], eval_sample_count=self.bayesian_config["eval_sample_count"])
+        self.old_Q = nn.EnsembleFeedForwardNet('old_q', self.obs_dim + self.action_dim, [], layers=Q_layers, hidden_dim=self.hidden_dim, get_uncertainty=True, ensemble_size=self.bayesian_config["ensemble_size"], train_sample_count=self.bayesian_config["train_sample_count"], eval_sample_count=self.bayesian_config["eval_sample_count"])
       else:
-        self.Q = nn.FeedForwardNet('Q', self.obs_dim + self.action_dim, [], layers=4, hidden_dim=self.hidden_dim, get_uncertainty=True)
-        self.old_Q = nn.FeedForwardNet('old_q', self.obs_dim + self.action_dim, [], layers=4, hidden_dim=self.hidden_dim, get_uncertainty=True)
+        self.Q = nn.FeedForwardNet('Q', self.obs_dim + self.action_dim, [], layers=Q_layers, hidden_dim=self.hidden_dim, get_uncertainty=True)
+        self.old_Q = nn.FeedForwardNet('old_q', self.obs_dim + self.action_dim, [], layers=Q_layers, hidden_dim=self.hidden_dim, get_uncertainty=True)
 
-    self.policy_params = [v for v in tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=self.name) if "policy" in v.name]
-    self.Q_params = [v for v in tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=self.name) if "Q" in v.name]
-    self.agent_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=self.name)
+    self.policy_params = [v for v in tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=self.name) if "policy" in v.name]
+    self.Q_params = [v for v in tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=self.name) if "Q" in v.name]
+    self.agent_params = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=self.name)
 
-    self.copy_to_old_ops = [tf.assign(p_old, p) for p_old, p in zip(self.old_Q.params_list, self.Q.params_list)]
-    self.assign_epoch_op = [tf.assign(self.epoch_n, self.epoch_n_placeholder), tf.assign(self.update_n, self.update_n_placeholder), tf.assign(self.frame_n, self.frame_n_placeholder), tf.assign(self.hours, self.hours_placeholder)]
+    self.copy_to_old_ops = [tf.compat.v1.assign(p_old, p) for p_old, p in zip(self.old_Q.params_list, self.Q.params_list)]
+    self.assign_epoch_op = [tf.compat.v1.assign(self.epoch_n, self.epoch_n_placeholder), tf.compat.v1.assign(self.update_n, self.update_n_placeholder), tf.compat.v1.assign(self.frame_n, self.frame_n_placeholder), tf.compat.v1.assign(self.hours, self.hours_placeholder)]
+    # add soft tau
+    soft_tau = 0.01
+    self.soft_copy_to_old_ops = [tf.compat.v1.assign(p_old, p_old * (1.0 - soft_tau) + p * soft_tau) for p_old, p in zip(self.old_Q.params_list, self.Q.params_list)] # Q_old = Q_target
+    # self.copy_to_old_policy = [tf.compat.v1.assign(p_old,p) for p_old, p in zip(self.old_policy.params_list, self.policy.params_list)]
+    # self.soft_copy_to_old_policy = [tf.compat.v1.assign(p_old, p_old * (1.0 - soft_tau) + p * soft_tau) for p_old, p in zip(self.old_policy.params_list, self.policy.params_list)] # old_policy  = policy_target
 
   def update_epoch(self, sess, epoch, updates, frames, hours):
     sess.run(self.assign_epoch_op, feed_dict={self.epoch_n_placeholder: int(epoch), self.update_n_placeholder: int(updates), self.frame_n_placeholder: int(frames), self.hours_placeholder: float(hours)})
 
-  def copy_to_old(self, sess):
-    sess.run(self.copy_to_old_ops)
+  def copy_to_old(self, sess, decay):
+    # copy Q to old Q and policy to old policy
+    if decay:
+        sess.run(self.soft_copy_to_old_ops)
+        # if not(self.multiprocessing): sess.run(self.soft_copy_to_old_policy)
+    else:
+        sess.run(self.copy_to_old_ops)
+        # if not(self.multiprocessing): sess.run(self.copy_to_old_policy)
 
-  def build_evalution_graph(self, obs, get_full_info=False, mode="regular", n_samples=1):
+  def build_evalution_graph(self, obs, get_full_info=False, mode="regular", n_samples=1, use_old_policy=False):
     assert mode in {"regular", "explore", "exploit"}
-    policy_actions_pretanh = self.policy(obs)
+    if use_old_policy:
+        # policy_actions_pretanh = self.old_policy(obs)
+        raise ValueError('Not Implemented')
+    else:
+        policy_actions_pretanh = self.policy(obs)
 
     if mode == "regular" or mode == "exploit":
       policy_actions = tf.tanh(policy_actions_pretanh)
     elif mode == "explore":
-      _, _, exploring_policy_actions, _ = util.tanh_sample_info(policy_actions_pretanh, tf.zeros_like(policy_actions_pretanh), n_samples=n_samples)
-      policy_actions = tf.where(tf.random_uniform(tf.shape(exploring_policy_actions)) < self.explore_chance, x=exploring_policy_actions, y=tf.tanh(policy_actions_pretanh))
+      _, _, exploring_policy_actions, _ = util.tanh_sample_info(policy_actions_pretanh, tf.zeros_like(policy_actions_pretanh),n_samples=n_samples)
+      policy_actions = tf.where(tf.random.uniform(tf.shape(exploring_policy_actions)) < self.explore_chance, x=exploring_policy_actions, y=tf.tanh(policy_actions_pretanh))
     else: raise Exception('this should never happen')
 
     if get_full_info:     return policy_actions_pretanh, policy_actions
     else:                 return policy_actions
 
-  def build_training_graph(self, obs, next_obs, empirical_actions, rewards, dones, data_size, worldmodel=None):
+  def build_training_graph(self, obs, next_obs, empirical_actions, next_actions, rewards, dones, data_size, worldmodel=None):
     average_model_use = tf.constant(0.)
     empirical_Q_info = tf.concat([obs, empirical_actions], 1)
 
@@ -89,6 +111,10 @@ class ValueRL(CoreModel):
       state_value_estimate = self.Q(policy_Q_info, reduce_mode="mean")
 
       next_policy_actions = self.build_evalution_graph(next_obs)
+      # if manual_mods:
+      #     next_policy_actions = self.build_evalution_graph(next_obs,use_old_policy=True)
+      # else:
+      #     next_policy_actions = self.build_evalution_graph(next_obs,use_old_policy=not(self.original_config))
       policy_next_Q_info = tf.concat([next_obs, next_policy_actions], 1)
       next_Q_estimate = self.old_Q(policy_next_Q_info, reduce_mode="mean")
 
@@ -117,6 +143,7 @@ class ValueRL(CoreModel):
       else:
         # MVE objective: just take the last one
         k_returns = targets[:,:,-1]
+        average_model_use = 1. - tf.reduce_mean(confidence[:,0,0])
 
       # now we have [batch_i, start_timestep]. if we are using the TDK trick, then we want to use all of the targets,
       # so we construct a corresponding [batch_i, start_timestep] matrix of guesses. otherwise, we just take the targets
@@ -173,13 +200,24 @@ class ValueRL(CoreModel):
     def rollout_loop_body(r_i, xxx_todo_changeme):
       (obs, done, extra_info, action_ta, obs_ta, dones_ta, extra_info_ta) = xxx_todo_changeme
       action_pretanh, action = self.build_evalution_graph(tf.stop_gradient(obs), get_full_info=True)
+      # if manual_mods:
+      #     action_pretanh, action = self.build_evalution_graph(tf.stop_gradient(obs), get_full_info=True,use_old_policy=True)
+      # else:
+      #     action_pretanh, action = self.build_evalution_graph(tf.stop_gradient(obs), get_full_info=True,use_old_policy=not(self.original_config))
 
       if model_ensembling:
         next_obs, next_dones, next_extra_info = worldmodel.transition(obs, action, extra_info, ensemble_idxs=ensemble_idxs)
+        if next_dones is None:
+            # next_dones = tf.zeros_like(first_done)
+            next_dones = first_done
       else:
         next_obs, next_dones, next_extra_info = worldmodel.transition(obs, action, extra_info)
         next_obs = tf.reduce_mean(next_obs, -2)
-        next_dones = tf.reduce_mean(next_dones, -1)
+        if next_dones is None:
+            # next_dones = tf.zeros_like(first_done)
+            next_dones = first_done
+        else:
+            next_dones = tf.reduce_mean(next_dones, -1)
 
       action_ta = action_ta.write(r_i, action)
       obs_ta = obs_ta.write(r_i, obs)
@@ -194,6 +232,10 @@ class ValueRL(CoreModel):
     )
 
     final_action_pretanh, final_action = self.build_evalution_graph(tf.stop_gradient(final_obs), get_full_info=True)
+    # if manual_mods:
+    #     final_action_pretanh, final_action = self.build_evalution_graph(tf.stop_gradient(final_obs), get_full_info=True,use_old_policy=True)
+    # else:
+    #     final_action_pretanh, final_action = self.build_evalution_graph(tf.stop_gradient(final_obs), get_full_info=True,use_old_policy=not(self.original_config))
 
     ### compile the TensorArrays into useful tensors
     obss = obs_ta.stack()
@@ -208,6 +250,8 @@ class ValueRL(CoreModel):
     dones = tf.transpose(dones, [1, 0, 2])
     final_done = tf.reshape(final_done, tf.stack([-1, 1, transition_sample_n]))
     all_dones = tf.concat([dones, final_done],1)
+    if not self.learn_done_fn:
+        all_dones = tf.zeros_like(all_dones)
 
     actions = action_ta.stack()
     actions = tf.reshape(actions, tf.stack([rollout_len, -1, transition_sample_n, self.action_dim]))
@@ -237,8 +281,8 @@ class ValueRL(CoreModel):
 
     ### create "decay-exponent matrix" of size [1,ROLLOUT_FRAMES,ROLLOUT_FRAMES,1]. the first ROLLOUT_FRAMES corresponds to the index of the source, the second to the target.
     ts_count_mat = (tf.cast(tf.reshape(tf.range(rollout_frames), [1, rollout_frames]) - tf.reshape(tf.range(rollout_frames), [rollout_frames, 1]), tf.float32))
-    reward_coeff_matrix = tf.matrix_band_part(tf.ones([rollout_frames, rollout_frames]), 0, -1) * self.discount ** ts_count_mat
-    value_coeff_matrix = tf.matrix_band_part(tf.ones([rollout_frames, rollout_frames]), 0, -1) * self.discount ** (1. + ts_count_mat)
+    reward_coeff_matrix = tf.linalg.band_part(tf.ones([rollout_frames, rollout_frames]), 0, -1) * self.discount ** ts_count_mat
+    value_coeff_matrix = tf.linalg.band_part(tf.ones([rollout_frames, rollout_frames]), 0, -1) * self.discount ** (1. + ts_count_mat)
     reward_coeff_matrix = tf.reshape(reward_coeff_matrix, [1, rollout_frames, rollout_frames, 1, 1])
     value_coeff_matrix = tf.reshape(value_coeff_matrix, [1, rollout_frames, rollout_frames, 1, 1])
 
@@ -272,7 +316,7 @@ class ValueRL(CoreModel):
       target_confidence = 1./(target_variances + 1e-8)
 
     ### normalize so weights sum to 1
-    target_confidence *= tf.matrix_band_part(tf.ones([1, rollout_frames, rollout_frames]), 0, -1)
+    target_confidence *= tf.linalg.band_part(tf.ones([1, rollout_frames, rollout_frames]), 0, -1)
     target_confidence = target_confidence / tf.reduce_sum(target_confidence, axis=2, keepdims=True)
 
     ### below here is a bunch of debugging Print statements that I use as a sanity check:
