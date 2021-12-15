@@ -2,8 +2,89 @@
 Start Time
 	2021-12-13_19-56-09/
 Config
-	{'output_root': 'devel/H3/output_train_m22p12_modPretrain1k_update250_modLR2', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 13, 'original_config': False, 'no_done': True, 'model_config': False}
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 13, 'original_config': False, 'no_done': True, 'model_config': False}
 End Time
 	2021-12-13_20-45-03/
 Duration
 	DD:HH:MM:SS 0:0:48:54
+
+Start Time
+	2021-12-14_07-06-59/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 113, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_07-55-31/
+Duration
+	DD:HH:MM:SS 0:0:48:31
+
+Start Time
+	2021-12-14_07-55-37/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 213, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_08-44-49/
+Duration
+	DD:HH:MM:SS 0:0:49:12
+
+Start Time
+	2021-12-14_08-44-56/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 313, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_09-34-24/
+Duration
+	DD:HH:MM:SS 0:0:49:27
+
+Start Time
+	2021-12-14_09-34-30/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 413, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_10-23-10/
+Duration
+	DD:HH:MM:SS 0:0:48:40
+
+Start Time
+	2021-12-14_10-23-17/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 513, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_11-12-37/
+Duration
+	DD:HH:MM:SS 0:0:49:20
+
+Start Time
+	2021-12-14_11-12-44/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 613, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_12-02-06/
+Duration
+	DD:HH:MM:SS 0:0:49:22
+
+Start Time
+	2021-12-14_12-02-13/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 713, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_12-51-17/
+Duration
+	DD:HH:MM:SS 0:0:49:4
+
+Start Time
+	2021-12-14_12-51-24/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 813, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_13-40-43/
+Duration
+	DD:HH:MM:SS 0:0:49:18
+
+Start Time
+	2021-12-14_13-40-49/
+Config
+	{'output_root': 'devel/H3/output_train_m22p12_modLR2_modPretrain1k_update250', 'save_model_path': 'checkpoints', 'log_path': 'log', 'agent_config': {'count': 1, 'batch_size': 1, 'reload_every_n': 1, 'full_random_n': 1000}, 'evaluator_config': {'count': 0, 'batch_size': 1}, 'policy_config': {'algo': 'ddpg', 'hidden_dim': 128, 'explore_chance': 0.05, 'batch_size': 128, 'replay_size': 1000000, 'frames_before_learning': 1000, 'log_every_n': 250, 'epoch_every_n': 250, 'backup_every_n': 2500000, 'frames_per_update': 0.25, 'policy_lr': 0.003, 'value_lr': 0.003, 'layers': [1, 2], 'bayesian': False, 'value_expansion': False, 'ddpg_explore_chance': False}, 'env': {'name': 'Hopper-v2', 'obs_dims': [11], 'action_dim': 3, 'reward_scale': 1.0, 'discount': 0.99, 'max_frames': 1000}, 'name': 'ddpg', 'resume': False, 'seed': 913, 'original_config': False, 'no_done': True, 'model_config': False}
+End Time
+	2021-12-14_14-30-35/
+Duration
+	DD:HH:MM:SS 0:0:49:45
